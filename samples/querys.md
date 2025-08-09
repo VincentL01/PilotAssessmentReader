@@ -1,1 +1,0 @@
-Give me all the detail information about flight training for AirTransat pilots on the A330 that have a duration of more than 2 hours. Then export them to a .parquet file.
