@@ -1,0 +1,19 @@
+[project]
+name = "workshop04"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "faiss-cpu>=1.11.0.post1",
+    "langchain>=0.3.27",
+    "langchain-community>=0.3.27",
+    "langchain-openai>=0.3.29",
+    "langgraph>=0.6.4",
+    "openai>=1.37.0",
+    "pandas>=2.3.1",
+    "polars>=1.32.2",
+    "pyarrow>=21.0.0",
+    "pydantic>=2.11.7",
+    "python-dotenv>=1.1.1",
+]
