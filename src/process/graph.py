@@ -43,26 +43,34 @@ def parse_filters_node(state: AppState) -> AppState:
 
 def retrieve_node(state: AppState) -> AppState:
     vs = load_faiss()
-    retriever = vs.as_retriever(search_kwargs={"k": TOP_K})
-    docs = retriever.invoke(state["prompt"])
-
     # Post-filter by airline/training_type if provided
     airline = (state["filters"] or {}).get("airline")
     training = (state["filters"] or {}).get("training_type")
+    
+    search_kwargs={"k": TOP_K}
+    if airline or training:
+        _filter = {}
+        if airline:
+            _filter["airline"] = airline
+        if training:
+            _filter["training_type"] = training
+        search_kwargs["filter"] = _filter
+    
+    retriever = vs.as_retriever(search_kwargs=search_kwargs)
+    docs = retriever.invoke(state["prompt"])
+
     # Keep unique doc_ids
     seen = set()
     candidates = []
     for d in docs:
         md = d.metadata or {}
-        if airline and md.get("airline", "").lower() != airline.lower():
-            continue
-        if training and md.get("training_type", "").lower() != training.lower():
-            continue
         did = md.get("doc_id")
         if not did or did in seen:
             continue
         seen.add(did)
         candidates.append(md)
+    
+    print(f"Found {len(candidates)} candidates after retrieval")
     state["candidates"] = candidates
     return state
 

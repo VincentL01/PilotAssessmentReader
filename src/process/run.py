@@ -15,7 +15,7 @@ def run_query(prompt: str, out_path: Optional[str] = None):
     ])
     if out_path and out_path.endswith(".parquet"):
         df.to_parquet(DATA_DIR / out_path, index=False)
-        print(f"✅ Exported {len(df)} rows to {out_path}")
+        print(f"Exported {len(df)} rows to {out_path}")
     else:
         print(df.to_string(index=False))
 
@@ -26,3 +26,5 @@ def export_direct(airline: str, training_type: str, out_path: str):
     """
     prompt = f"Return all pilot training records for airline '{airline}' and training type '{training_type}'. Export parquet."
     run_query(prompt, out_path)
+
+
